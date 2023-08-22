@@ -22,8 +22,8 @@ using namespace cv;
 
 #define CV_INSTRUMENT_REGION()
 //#define LOGLN(x)
-//#define LOGLN(x) std::cout << x << std::endl;
-#define ENABLE_LOG 0
+#define LOGLN(x) std::cout << x << std::endl;
+#define ENABLE_LOG 1
 #define LOG(x)
 
 
@@ -212,9 +212,9 @@ int ImagesComposer::compose_panorama(
 #endif
     UMat result, result_mask;
     blender_->blend(result, result_mask);
-    LOGLN("blend time: " << ((getTickCount() - blend_t) / getTickFrequency()) << " sec");
+    //LOGLN("blend time: " << ((getTickCount() - blend_t) / getTickFrequency()) << " sec");
 
-    LOGLN("Compositing, time: " << ((getTickCount() - t) / getTickFrequency()) << " sec");
+    //LOGLN("Compositing, time: " << ((getTickCount() - t) / getTickFrequency()) << " sec");
 
     warped_corners.clear();
 

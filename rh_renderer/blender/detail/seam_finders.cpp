@@ -47,8 +47,8 @@
 #include <opencv2/stitching/detail/util.hpp>
 #include <map>
 
-//#define LOGLN(x) std::cout << x << std::endl;
-#define ENABLE_LOG 0
+#define LOGLN(x) std::cout << x << std::endl;
+#define ENABLE_LOG 1
 #define LOG(x)
 #include <iostream>
 
@@ -131,14 +131,14 @@ void RhoanaGraphCutSeamFinder::Impl::find(const vector<UMat> &src, const vector<
         }
     }
 #if ENABLE_LOG
-    LOGLN(" find init: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+    //LOGLN(" find init: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
 #endif
 #if ENABLE_LOG
     pt = getTickCount();
 #endif
     PairwiseSeamFinder::find(src, corners, masks);
 #if ENABLE_LOG
-    LOGLN(" pairwise-find: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+    //LOGLN(" pairwise-find: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
 #endif
 }
 
@@ -198,7 +198,7 @@ void RhoanaGraphCutSeamFinder::Impl::setGraphWeightsColor(const Mat &img1, const
         }
     }
 #if ENABLE_LOG
-    LOGLN(" weights setting (color): " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+    //LOGLN(" weights setting (color): " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
 #endif
 }
 
@@ -265,7 +265,7 @@ void RhoanaGraphCutSeamFinder::Impl::setGraphWeightsColorGrad(
         }
     }
 #if ENABLE_LOG
-    LOGLN(" weights setting (color-grad): " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+    //LOGLN(" weights setting (color-grad): " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
 #endif
 }
 
@@ -338,7 +338,7 @@ void RhoanaGraphCutSeamFinder::Impl::findInPair(size_t first, size_t second, Rec
         }
     }
 #if ENABLE_LOG
-    LOGLN(" cutting subgraphs and masks: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+    //LOGLN(" cutting subgraphs and masks: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
 #endif
 
 #if ENABLE_LOG
@@ -366,7 +366,7 @@ void RhoanaGraphCutSeamFinder::Impl::findInPair(size_t first, size_t second, Rec
     #endif
     }
     #if ENABLE_LOG
-        LOGLN(" graph creation: " << ((getTickCount() - pt) / getTickFrequency()) << " sec (vertices: " << vertex_count << ", edges: " << edge_count << ")");
+        //LOGLN(" graph creation: " << ((getTickCount() - pt) / getTickFrequency()) << " sec (vertices: " << vertex_count << ", edges: " << edge_count << ")");
     #endif
 
     #if ENABLE_LOG
@@ -374,7 +374,7 @@ void RhoanaGraphCutSeamFinder::Impl::findInPair(size_t first, size_t second, Rec
     #endif
         graph.maxFlow();
     #if ENABLE_LOG
-        LOGLN(" max-flow: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+        //LOGLN(" max-flow: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
     #endif
 
     for (int y = 0; y < roi.height; ++y)

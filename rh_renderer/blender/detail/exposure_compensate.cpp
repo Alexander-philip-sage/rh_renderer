@@ -46,8 +46,8 @@
 #include <opencv2/stitching/detail/util.hpp>
 
 #define CV_INSTRUMENT_REGION()
-//#define LOGLN(x) std::cout << x << std::endl;
-#define ENABLE_LOG 0
+#define LOGLN(x) std::cout << x << std::endl;
+#define ENABLE_LOG 1
 #define LOG(x)
 #include <iostream>
 
@@ -59,7 +59,7 @@ namespace detail {
 void RhoanaGainCompensator::feed(const vector<Point> &corners, const vector<UMat> &images,
                            const vector<pair<UMat,uchar> > &masks)
 {
-    LOGLN("Exposure compensation...");
+    //LOGLN("Exposure compensation...");
 #if ENABLE_LOG
     int64 t = getTickCount();
 #endif
@@ -135,7 +135,7 @@ void RhoanaGainCompensator::feed(const vector<Point> &corners, const vector<UMat
 
     solve(A, b, gains_);
 
-    LOGLN("Exposure compensation, time: " << ((getTickCount() - t) / getTickFrequency()) << " sec");
+    //LOGLN("Exposure compensation, time: " << ((getTickCount() - t) / getTickFrequency()) << " sec");
 }
 
 
