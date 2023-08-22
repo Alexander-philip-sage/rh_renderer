@@ -48,7 +48,7 @@
 #include <map>
 
 #define LOGLN(x) std::cout << x << std::endl;
-#define ENABLE_LOG 1
+#define ENABLE_LOG 0
 #define LOG(x)
 #include <iostream>
 
@@ -359,23 +359,23 @@ void RhoanaGraphCutSeamFinder::Impl::findInPair(size_t first, size_t second, Rec
                                  submask1, submask2, graph);
         break;
     default:
-#if (CV_VERSION_MAJOR >= 4)
-        CV_Error(cv::Error::StsBadArg, "unsupported pixel similarity measure");
-#else
-        CV_Error(CV_StsBadArg, "unsupported pixel similarity measure");
-#endif
+    #if (CV_VERSION_MAJOR >= 4)
+            CV_Error(cv::Error::StsBadArg, "unsupported pixel similarity measure");
+    #else
+            CV_Error(CV_StsBadArg, "unsupported pixel similarity measure");
+    #endif
     }
-#if ENABLE_LOG
-    LOGLN(" graph creation: " << ((getTickCount() - pt) / getTickFrequency()) << " sec (vertices: " << vertex_count << ", edges: " << edge_count << ")");
-#endif
+    #if ENABLE_LOG
+        LOGLN(" graph creation: " << ((getTickCount() - pt) / getTickFrequency()) << " sec (vertices: " << vertex_count << ", edges: " << edge_count << ")");
+    #endif
 
-#if ENABLE_LOG
-    pt = getTickCount();
-#endif
-    graph.maxFlow();
-#if ENABLE_LOG
-    LOGLN(" max-flow: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
-#endif
+    #if ENABLE_LOG
+        pt = getTickCount();
+    #endif
+        graph.maxFlow();
+    #if ENABLE_LOG
+        LOGLN(" max-flow: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+    #endif
 
     for (int y = 0; y < roi.height; ++y)
     {

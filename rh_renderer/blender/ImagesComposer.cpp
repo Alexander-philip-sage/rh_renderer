@@ -23,7 +23,7 @@ using namespace cv;
 #define CV_INSTRUMENT_REGION()
 //#define LOGLN(x)
 #define LOGLN(x) std::cout << x << std::endl;
-#define ENABLE_LOG 1
+#define ENABLE_LOG 0
 #define LOG(x)
 
 
@@ -110,14 +110,14 @@ int ImagesComposer::compose_panorama(
         warped_sizes[i] = warped_images[i].size();
     }
 
-    LOGLN("Compensating exposure (pre-seams detection)")
+    //LOGLN("Compensating exposure (pre-seams detection)")
 
     // Compensate exposure before finding seams
     exposure_comp_->feed(warped_seams_corners, warped_seams_images, warped_seams_masks);
     for (size_t i = 0; i < warped_seams_images.size(); ++i)
         exposure_comp_->apply(int(i), warped_seams_corners[i], warped_seams_images[i], warped_seams_masks[i]);
 
-    LOGLN("Detecting seams")
+    //LOGLN("Detecting seams")
 
     // Find seams
     std::vector<UMat> warped_seams_images_f(warped_seams_images.size());
@@ -125,7 +125,7 @@ int ImagesComposer::compose_panorama(
         warped_seams_images[i].convertTo(warped_seams_images_f[i], CV_32F);
     seam_finder_->find(warped_seams_images_f, warped_seams_corners, warped_seams_masks);
 
-    LOGLN("Adi debug 2");
+    //LOGLN("Adi debug 2");
 
     // Release unused memory
     //seam_est_imgs_.clear();
@@ -134,7 +134,7 @@ int ImagesComposer::compose_panorama(
     warped_seams_images_f.clear();
     warped_seams_corners.clear();
 
-    LOGLN("Compositing...");
+    //LOGLN("Compositing...");
 #if ENABLE_LOG
     int64 t = getTickCount();
 #endif
@@ -158,21 +158,21 @@ int ImagesComposer::compose_panorama(
     UMat full_img, img;
     for (size_t img_idx = 0; img_idx < warped_images.size(); ++img_idx)
     {
-        LOGLN("Compositing image #" << img_idx + 1);
-#if ENABLE_LOG
-        int64 compositing_t = getTickCount();
-#endif
+        //LOGLN("Compositing image #" << img_idx + 1);
+        #if ENABLE_LOG
+                int64 compositing_t = getTickCount();
+        #endif
 
-#if ENABLE_LOG
-        int64 pt = getTickCount();
-#endif
+        #if ENABLE_LOG
+                int64 pt = getTickCount();
+        #endif
         // Compensate exposure
         //std::cout << "Corners " << img_idx << ": " << warped_corners[img_idx] << std::endl;
         exposure_comp_->apply((int)img_idx, warped_corners[img_idx], warped_images[img_idx], warped_masks[img_idx]);
-        LOGLN(" compensate exposure: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
-#if ENABLE_LOG
-        pt = getTickCount();
-#endif
+        //LOGLN(" compensate exposure: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+        #if ENABLE_LOG
+                pt = getTickCount();
+        #endif
 
         warped_images[img_idx].convertTo(img_warped_s, CV_16S);
 
@@ -182,10 +182,10 @@ int ImagesComposer::compose_panorama(
 
         bitwise_and(seam_mask, warped_masks[img_idx], warped_masks[img_idx]);
 
-        LOGLN(" other: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
-#if ENABLE_LOG
-        pt = getTickCount();
-#endif
+        //LOGLN(" other: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+        #if ENABLE_LOG
+                pt = getTickCount();
+        #endif
 
         if (!is_blender_prepared)
         {
@@ -193,18 +193,18 @@ int ImagesComposer::compose_panorama(
             is_blender_prepared = true;
         }
 
-        LOGLN(" other2: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
+        //LOGLN(" other2: " << ((getTickCount() - pt) / getTickFrequency()) << " sec");
 
-        LOGLN(" feed...");
-#if ENABLE_LOG
-        int64 feed_t = getTickCount();
-#endif
+        //LOGLN(" feed...");
+        #if ENABLE_LOG
+                int64 feed_t = getTickCount();
+        #endif
 
         //std::cout << "warped_masks[0] type: " << warped_masks[0].type() << std::endl;
         // Blend the current image
         blender_->feed(img_warped_s, warped_masks[img_idx], warped_corners[img_idx]);
-        LOGLN(" feed time: " << ((getTickCount() - feed_t) / getTickFrequency()) << " sec");
-        LOGLN("Compositing ## time: " << ((getTickCount() - compositing_t) / getTickFrequency()) << " sec");
+        //LOGLN(" feed time: " << ((getTickCount() - feed_t) / getTickFrequency()) << " sec");
+        //LOGLN("Compositing ## time: " << ((getTickCount() - compositing_t) / getTickFrequency()) << " sec");
     }
 
 #if ENABLE_LOG

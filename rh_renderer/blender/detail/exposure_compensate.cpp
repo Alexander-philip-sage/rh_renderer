@@ -47,7 +47,7 @@
 
 #define CV_INSTRUMENT_REGION()
 #define LOGLN(x) std::cout << x << std::endl;
-#define ENABLE_LOG 1
+#define ENABLE_LOG 0
 #define LOG(x)
 #include <iostream>
 
