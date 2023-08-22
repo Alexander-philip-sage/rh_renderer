@@ -46,7 +46,7 @@
 #include <opencv2/stitching/detail/util.hpp>
 
 #define CV_INSTRUMENT_REGION()
-#define LOGLN(x) std::cout << x << std::endl;
+//#define LOGLN(x) std::cout << x << std::endl;
 #define ENABLE_LOG 0
 #define LOG(x)
 #include <iostream>

@@ -22,7 +22,7 @@ using namespace cv;
 
 #define CV_INSTRUMENT_REGION()
 //#define LOGLN(x)
-#define LOGLN(x) std::cout << x << std::endl;
+//#define LOGLN(x) std::cout << x << std::endl;
 #define ENABLE_LOG 0
 #define LOG(x)
 
